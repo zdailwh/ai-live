@@ -4,7 +4,7 @@
       <div class="lager-layout">
         <div class="header">
           <div class="opt">
-            <div class="logo" v-show="smallLayout === false"><img src="./assets/zg_logo.png"><span class="logo_title">广电专业人像检索系统</span></div>
+            <div class="logo" v-show="smallLayout === false"><img src="./assets/zg_logo.png"><span class="logo_title">广电专业人像直播审核系统</span></div>
           </div>
           <div class="opt" style="justify-content: flex-end;flex:1;margin-right: 10px;">
             <a-dropdown v-if="currUser.id">
@@ -28,7 +28,7 @@
       </div>
       <div class="container">
         <div class="file-page">
-          <div v-if="routeWhiteList.indexOf($route.path) === -1" class="file-slider">
+          <div v-if="routeWhiteList.indexOf($route.path) === -1 && $route.path.indexOf('jiankan') === -1" class="file-slider">
             <div class="myTopMenu">
               <a-menu theme="dark" v-model="current" @click="menuClick">
                 <template v-if="permission_routes.length">
@@ -42,7 +42,7 @@
               </a-menu>
             </div>
           </div>
-          <div class="file-main" :style="{ paddingLeft: routeWhiteList.indexOf($route.path) === -1? '166px': '0px' }">
+          <div class="file-main" :style="{ paddingLeft: (routeWhiteList.indexOf($route.path) === -1 && $route.path.indexOf('jiankan') === -1) ? '166px': '0px' }">
             <div v-if="showSubMenu" class="mySubMenu">
               <a-menu v-if="topRoute && topRoute.children && topRoute.children.length" v-model="currentChild" mode="horizontal">
                 <a-menu-item v-if="!rou.hidden" v-for="rou in topRoute.children" :key="`${topRoute.path}/${rou.path}`" :style="{float: rou.path.indexOf('sysrestart') !== -1 ? 'right' : ''}">
@@ -67,7 +67,7 @@ export default {
       smallLayout: false,
       showMenus: false,
       topRoute: {},
-      routeWhiteList: [ '/login', '/updatePwdFirst', '/404', '/500' ]
+      routeWhiteList: [ '/login', '/updatePwdFirst', '/404', '/500', '/jiankan' ]
     }
   },
   computed: {
@@ -97,7 +97,7 @@ export default {
       }
     },
     showSubMenu () {
-      var hideSubMenuRoute = ['Login', 'UpdatePwdFirst', 'TaskResult', 'MyEdit', 'MyUpdatePwd', '404', '500']
+      var hideSubMenuRoute = ['Login', 'UpdatePwdFirst', 'TaskResult', 'MyEdit', 'MyUpdatePwd', '404', '500', 'Jiankan', 'JiankanAll']
       if (hideSubMenuRoute.indexOf(this.$route.name) !== -1) {
         return false
       } else {

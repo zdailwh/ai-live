@@ -12,7 +12,7 @@ Vue.use(Router)
 export const constantRoutes = [
   {
     path: '/',
-    redirect: '/queue/my',
+    redirect: '/taskbatch/task',
     hidden: true
   },
   {
@@ -264,44 +264,46 @@ export const constantRoutes = [
 
 export const asyncRoutes = [
   {
-    path: '/queue',
-    name: 'Queue',
-    component: () => import('@/views/queue/index'),
-    meta: { title: '当前队列', active: 'queue', icon: 'icon-mqxiaoxiduilieMQ-copy' },
-    redirect: '/queue/my',
+    path: '/channel',
+    name: 'Channel',
+    component: () => import('@/views/channel/index'),
+    meta: { title: '频道配置', active: 'channel', icon: 'icon-mqxiaoxiduilieMQ-copy' },
+    redirect: '/channel/list',
     children: [
       {
-        path: 'my',
-        name: 'My',
-        component: () => import('@/views/queue/my'),
-        meta: { title: '我的', active: 'queue' }
-      },
-      {
-        path: 'all',
-        name: 'All',
-        component: () => import('@/views/queue/all'),
-        meta: { title: '全部', active: 'queue' }
+        path: 'list',
+        name: 'ChannelList',
+        component: () => import('@/views/channel/list'),
+        meta: { title: '频道列表', active: 'channel' }
       }
     ]
+  },
+  {
+    path: '/jiankan/:id',
+    name: 'Jiankan',
+    component: () => import('@/views/channel/jiankan'),
+    meta: { title: '实时监控', active: 'jiankan' },
+    hidden: true
+  },
+  {
+    path: '/jiankanAll',
+    name: 'JiankanAll',
+    component: () => import('@/views/channel/jiankanAll'),
+    meta: { title: '实时监控', active: 'jiankanAll' },
+    hidden: true
   },
   {
     path: '/taskbatch',
     name: 'TaskBatch',
     component: () => import('@/views/taskBatch/index'),
-    meta: { title: '任务管理', active: 'taskbatch', icon: 'icon-renwuguanli-copy' },
+    meta: { title: '结果查看', active: 'taskbatch', icon: 'icon-renwuguanli-copy' },
     redirect: '/taskbatch/task',
     children: [
       {
         path: 'task',
         name: 'Task',
         component: () => import('@/views/taskBatch/task'),
-        meta: { title: '任务', active: 'taskbatch' }
-      },
-      {
-        path: 'batch',
-        name: 'Batch',
-        component: () => import('@/views/taskBatch/batch'),
-        meta: { title: '任务单', active: 'taskbatch' }
+        meta: { title: '结果列表', active: 'taskbatch' }
       }
     ]
   },
@@ -327,25 +329,10 @@ export const asyncRoutes = [
     ]
   },
   {
-    path: '/mode',
-    name: 'Mode',
-    component: () => import('@/views/mode/index'),
-    meta: { title: '审核模板', active: 'mode', icon: 'icon-shenpishenhe-copy' },
-    redirect: '/mode/list',
-    children: [
-      {
-        path: 'list',
-        name: 'ModeList',
-        component: () => import('@/views/mode/modelist'),
-        meta: { title: '模板列表', active: 'mode' }
-      }
-    ]
-  },
-  {
     path: '/taskResult/:taskId',
     name: 'TaskResult',
     component: () => import('@/views/taskResult'),
-    meta: { title: '查看任务结果', active: 'taskbatch' },
+    meta: { title: '查看结果详情', active: 'taskbatch' },
     hidden: true
   },
   {

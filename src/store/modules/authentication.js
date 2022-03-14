@@ -39,7 +39,7 @@ const actions = {
           commit('SET_INFO', item.user)
           commit('SET_TOKEN', JSON.stringify(item.user))
           setToken(JSON.stringify(item.user))
-          Cookies.set('aiface-isVisitor', item.user.level === 2)
+          Cookies.set('ailive-isVisitor', item.user.level === 2)
         }
         resolve(response)
       }).catch(error => {

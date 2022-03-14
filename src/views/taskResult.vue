@@ -4,23 +4,10 @@
       <div class="media-wrapper">
         <div class="media-player">
           <div class="playwrap">
-            <video src="" width="100%" video controls="controls" id="myvideo"></video>
+            <div id="tcplayer" ref="tcplayer" class="video" />
             <div v-if="showLineControl" class="lineParent">
               <div v-for="it in timePoints" :key="it" class="point" :style="{ left: (it / task.duration * 100).toFixed(2) + '%' }" @click="videoImgFixed(it)"></div>
             </div>
-            <a-button-group size="small">
-              <a-button @click="bofang()">开始播放</a-button>
-              <a-button @click="zanting()">暂停播放</a-button>
-              <a-button @click="kuaijin()">快进播放</a-button>
-              <a-button @click="kuaitui()">快退播放</a-button>
-              <a-button @click="soso()">加速播放</a-button>
-
-              <a-button @click="yu()">减速播放</a-button>
-              <a-button @click="normal()">正常播放</a-button>
-              <a-button @click="upper()">声音增加</a-button>
-              <a-button @click="lower()">声音减小</a-button>
-            </a-button-group>
-            <!-- <div id="tcplayer"></div> -->
           </div>
         </div>
         <div class="locationDetailWrap">
@@ -31,13 +18,13 @@
     </div>
     <div class="d-right" :style="smallLayout? 'width: 100%;height: auto;': ''">
       <a-tabs :default-active-key="defaultActiveKey" size="small" @change="tabChange">
-        <a-tab-pane key="1" tab="任务结果">
+        <a-tab-pane key="1" tab="按时间轴查看">
           <Timeline ref="timeline" :taskresult="resTimeFaces" :smalllayout="smallLayout" @videofixed="videoFixed" />
         </a-tab-pane>
         <a-tab-pane key="2" tab="按人像查看">
           <Face ref="face" :taskresult="resFaces" :smalllayout="smallLayout" @videofixed="videoFixed" />
         </a-tab-pane>
-        <a-tab-pane key="3" tab="任务基本信息">
+        <a-tab-pane key="3" tab="基本信息">
           <Setting :taskinfo="task"/>
         </a-tab-pane>
       </a-tabs>
@@ -46,7 +33,7 @@
 </template>
 <script>
 import api from '../api'
-import { TcPlayer } from 'tcplayer'
+import { TcPlayer } from 'static/TcPlayer-module-2.4.1.js'
 import Setting from '../components/Setting'
 import Face from '../components/Face'
 import Timeline from '../components/Timeline'
@@ -69,7 +56,8 @@ export default {
       resDataKeyTotal_timeline: '',
       resDataKeyTotal_face: '',
       timePoints: [],
-      showLineControl: false
+      showLineControl: false,
+      player: ''
     }
   },
   filters: {
@@ -111,17 +99,14 @@ export default {
       var params = {
         id: tid
       }
-      api.getTasksById(params).then(res => {
+      api.getResultById(params).then(res => {
         var resBody = res.data
         if (resBody.code === 0) {
           this.task = resBody.data
-          if (this.task && this.task.file_path && this.task.file_path !== 'undefined') {
+          if (this.task && this.task.url && this.task.url !== 'undefined') {
             var halfH = document.querySelectorAll('.locationDetailWrap')[0].clientHeight
-            // document.getElementById('myvideo').style.height = (halfH - 48) + 'px'
-            document.getElementById('myvideo').setAttribute('height', halfH - 48)
-            document.getElementById('myvideo').setAttribute('src', '/resource/' + this.task.file_path)
+            this.createPlayer({ vHeight: halfH - 48, vUrl: '/' + this.task.url })
             document.querySelectorAll('.detailImgBox')[0].style.height = (halfH - 44 - 20) + 'px'
-            // this.createPlayer()
           }
           if (this.task.status === 5 && this.task.resultstatus === 0) {
             this.defaultActiveKey = 3
@@ -149,9 +134,9 @@ export default {
     getTaskResultsTimeline (tid) {
       var params = {
         id: tid,
-        isFace: 0
+        timestamp: this.task.timestamp
       }
-      api.getTaskResults(params).then(res => {
+      api.getResultByTime(params).then(res => {
         var resBody = res.data
         if (resBody.code === 0) {
           this.resTimeFaces = resBody.data.timefaces
@@ -179,9 +164,9 @@ export default {
     getTaskResultsFace (tid) {
       var params = {
         id: tid,
-        isFace: 1
+        timestamp: this.task.timestamp
       }
-      api.getTaskResults(params).then(res => {
+      api.getResultByFace(params).then(res => {
         var resBody = res.data
         if (resBody.code === 0) {
           this.resFaces = resBody.data.faces
@@ -236,83 +221,44 @@ export default {
         this.showLineControl = false
       }
     },
-    createPlayer () {
+    createPlayer (params) {
       // var url = 'http://ai.evereasycom.cn:15280/face_reco_web/userData/test_user2/videoAsset/1638182188388.mp4'
-      var url = this.task.file_path
-      document.querySelector('#tcplayer').innerHTML = ''
-      var player = new TcPlayer('tcplayer', {
-        mp4: url,
-        autoplay: true,
-        width: 'auto',
-        height: '100%',
-        wording: {
-          1001: '网络错误，请检查网络配置或者播放链接是否正确',
-          1002: '获取视频失败，请检查播放链接是否有效',
-          2032: '获取视频失败，请检查播放链接是否有效',
-          2048: '无法加载视频文件，跨域访问被拒绝'
-        },
-        listener: function (msg) {
-          // console.log('listener:', msg)
-          // if (msg.type === 'play') {
-          //   self.videoPlay()
+      var dom = document.getElementById('tcplayer')
+      while (dom.hasChildNodes()) {
+        // 当div下还存在子节点时 循环继续
+        dom.removeChild(dom.firstChild)
+        // this.player.destroy()
+      }
+      if (params.vUrl) {
+        this.player = new TcPlayer('tcplayer', {
+          m3u8: params.vUrl,
+          // m3u8_sd: params.vUrl, // 请替换成实际可用的播放地址
+          // m3u8_hd: params.vUrl,
+          // flv_sd: '', // 请替换成实际可用的播放地址
+          // flv_hd: '', // 请替换成实际可用的播放地址
+          autoplay: true, // iOS 下 safari 浏览器，以及大部分移动端浏览器是不开放视频自动播放这个能力的
+          // poster: '',
+          controls: 'default',
+          // flash: false,
+          // h5_flv: true,
+          width: '100%', // 视频的显示宽度，请尽量使用视频分辨率宽度
+          height: params.vHeight // 视频的显示高度，请尽量使用视频分辨率高度
+          // volume: 0,
+          // clarity: 'sd',
+          // wording: {
+          //   2: '摄像头连接网络不稳定',
+          //   1002: '摄像头连接网络不稳定，请切换清晰度'
           // }
-          // if (msg.type === 'loadeddata') {
-          //   player.play()
-          // }
-        }
-      })
-      window.player = player
+        })
+      }
     },
     videoFixed (params) {
       this.taskResItem = params.item
       var fixSecond = params.currentTime || params.timepos
-      document.getElementById('myvideo').currentTime = fixSecond / 1000
+      this.player.currentTime(fixSecond / 1000)
     },
-    bofang () {
-      document.getElementById('myvideo').play()
-    },
-    // 暂停
-    zanting () {
-      document.getElementById('myvideo').pause()
-    },
-    // 快进
-    kuaijin () {
-      document.getElementById('myvideo').currentTime += 10
-    },
-    // 快退
-    kuaitui () {
-      document.getElementById('myvideo').currentTime -= 10
-    },
-    // 加速(3)
-    soso () {
-      document.getElementById('myvideo').playbackRate = 3
-    },
-    // 减速（3）
-    yu () {
-      document.getElementById('myvideo').playbackRate = 1 / 3
-    },
-    normal () {
-      document.getElementById('myvideo').playbackRate = 1
-    },
-    // 调高声音
-    upper () {
-      document.getElementById('myvideo').volume += 0.3
-    },
-    // 降低声音
-    lower () {
-      document.getElementById('myvideo').volume -= 0.3
-    },
-    videoImgFixed (hm) {
-      this.$refs.timeline.timelineFix(hm)
-      // this.$nextTick(function () {
-      //   var nodeId = 'point_' + hm
-      //   console.log(nodeId)
-      //   var node = document.getElementById(nodeId)
-      //   console.log(node)
-      //   if (node) {
-      //     document.querySelectorAll('.faceWrap')[0].scrollTop = (node.offsetTop - 60) <= 0 ? 0 : (node.offsetTop - 60)
-      //   }
-      // })
+    videoImgFixed (miao) {
+      this.$refs.timeline.timelineFix(miao)
     }
   }
 }

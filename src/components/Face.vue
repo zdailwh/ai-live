@@ -7,7 +7,7 @@
             <p class="faceItem" :class="{ currBox: currBoxKey === fid + '-' + k }" v-for="(it, k) in slicedTaskresult" :key="k" @click="changeBox(it, it.timepos, fid, k)" :ref="fid + '-' + k">
               <img v-if="it.thumbs" v-lazy="`/api/admin/v1/getResultImage?filepath=${it.thumbs}`" alt="人像图">
               <img v-else src="../assets/user.png" alt="人像图" style="width:32px;height:32px;">
-              <span>{{ it.timepos | formateSeconds }}</span>
+              <span>{{ it.timepos * 1000 | formateSeconds }}</span>
             </p>
             <div v-if="loading && !busy" class="loading-container">
               <a-spin />
@@ -67,7 +67,7 @@ export default {
   },
   methods: {
     changeBox (fItem, second, fid, k) {
-      this.$emit('videofixed', { currentTime: second, item: fItem })
+      this.$emit('videofixed', { currentTime: second * 1000, item: fItem })
       this.currBoxKey = fid + '-' + k
     },
     getFace (faceId) {

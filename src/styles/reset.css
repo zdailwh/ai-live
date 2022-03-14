@@ -469,6 +469,9 @@ i {
   white-space: normal;
 }
 
+.tableWrap .ant-table-row-expand-icon {
+  background: transparent;
+}
 /*ant desc*/
 .mydesc .ant-descriptions-title {
   color: #9aa1a8;

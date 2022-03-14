@@ -11,7 +11,7 @@
           <div class="desc-box">
             <div class="timeWrap">
               <p><a href="javascript:;" @click="getFace(it.faceId)">{{it.name}}</a></p>
-              <p>{{ second | formateSeconds }}</p>
+              <p>{{ second * 1000 | formateSeconds }}</p>
 
             </div>
           </div>
@@ -134,8 +134,8 @@ export default {
       this.changeBox(sliceRes[sliceKeys[0]], parseInt(sliceKeys[0]), 0)
     },
     changeBox (fItem, second, k) {
-      this.$emit('videofixed', { currentTime: second, item: fItem })
-      this.currBoxKey = second + '-' + k
+      this.$emit('videofixed', { currentTime: second * 1000, item: fItem })
+      this.currBoxKey = (second) + '-' + k
     },
     onCloseDrawer () {
       this.clickFace = {}

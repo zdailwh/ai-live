@@ -222,29 +222,83 @@ export default {
     }
   },
 
-  async addTask (params) {
-    if (process.env.NODE_ENV === 'production') {
-      var res = await axios.post(`/api/admin/v1/task`, params)
-      return res
-    } else {
-      const data = await await timeout(200).then(() => mock.createTask)
-      return { status: 200, data: data }
-    }
-  },
-
-  async taskMergeFile (params) {
-    if (process.env.NODE_ENV === 'production') {
-      var res = await axios.post(`/api/admin/v1/task/merge`, params)
-      return res
-    } else {
-      const data = await await timeout(200).then(() => mock.task)
-      return { status: 200, data: data }
-    }
-  },
-
-  // async editTask (params) {
+  // async getTasks (params) {
   //   if (process.env.NODE_ENV === 'production') {
-  //     var res = await axios.put(`/api/admin/v1/task/${params.id}`, params)
+  //     var opts = {}
+  //     if (params && params.page_size) {
+  //       opts.page_size = params.page_size
+  //     }
+  //     if (params && params.page_no) {
+  //       opts.page_no = params.page_no - 1
+  //     }
+  //     if (params && params.name) {
+  //       opts.name = 'like_' + params.name
+  //     }
+  //     if (params && params.passId) {
+  //       opts.passId = params.passId
+  //     }
+  //     if (params && params.passName) {
+  //       opts.passName = 'like_' + params.passName
+  //     }
+  //     if (params && params.user_id) {
+  //       opts.userId = params.user_id
+  //     }
+  //     if (params && params.status !== '') {
+  //       opts.status = params.status
+  //     }
+  //     if (params && params.createTime) {
+  //       opts.createTime = params.createTime
+  //     }
+  //     var res = await axios.get(`/api/admin/v1/task`, {
+  //       params: opts
+  //     })
+  //     return res
+  //   } else {
+  //     const data = await await timeout(200).then(() => mock.tasks)
+  //     return { status: 200, data: data }
+  //   }
+  // },
+
+  // async getAllTasks (params) {
+  //   if (process.env.NODE_ENV === 'production') {
+  //     var opts = {}
+  //     if (params && params.page_size) {
+  //       opts.page_size = params.page_size
+  //     }
+  //     if (params && params.page_no) {
+  //       opts.page_no = params.page_no - 1
+  //     }
+  //     if (params && params.name) {
+  //       opts.name = 'like_' + params.name
+  //     }
+  //     if (params && params.passId) {
+  //       opts.passId = params.passId
+  //     }
+  //     if (params && params.passName) {
+  //       opts.passName = 'like_' + params.passName
+  //     }
+  //     if (params && params.user_id) {
+  //       opts.userId = params.user_id
+  //     }
+  //     if (params && params.status !== '') {
+  //       opts.status = params.status
+  //     }
+  //     if (params && params.createTime) {
+  //       opts.createTime = params.createTime
+  //     }
+  //     var res = await axios.get(`/api/admin/v1/getAllTask`, {
+  //       params: opts
+  //     })
+  //     return res
+  //   } else {
+  //     const data = await await timeout(200).then(() => mock.tasks)
+  //     return { status: 200, data: data }
+  //   }
+  // },
+
+  // async getTasksById (params) {
+  //   if (process.env.NODE_ENV === 'production') {
+  //     var res = await axios.get(`/api/admin/v1/task/${params.id}`)
   //     return res
   //   } else {
   //     const data = await await timeout(200).then(() => mock.task)
@@ -252,16 +306,17 @@ export default {
   //   }
   // },
 
-  async delTask (params) {
-    if (process.env.NODE_ENV === 'production') {
-      var res = await axios.delete(`/api/admin/v1/task/${params.id}`)
-      return res
-    } else {
-      return { status: 200 }
-    }
-  },
+  // async getTaskResults (params) {
+  //   if (process.env.NODE_ENV === 'production') {
+  //     var res = await axios.get(`/api/admin/v1/task/result/${params.id}?isFace=${params.isFace}`)
+  //     return res
+  //   } else {
+  //     const data = await await timeout(200).then(() => mock.result)
+  //     return { status: 200, data: { data: data, count: 1 } }
+  //   }
+  // },
 
-  async getTasks (params) {
+  async getChannels (params) {
     if (process.env.NODE_ENV === 'production') {
       var opts = {}
       if (params && params.page_size) {
@@ -270,17 +325,62 @@ export default {
       if (params && params.page_no) {
         opts.page_no = params.page_no - 1
       }
-      if (params && params.name) {
-        opts.name = 'like_' + params.name
+      if (params && params.createTime) {
+        opts.createTime = params.createTime
       }
-      if (params && params.batchId) {
-        opts.batchId = params.batchId
+      var res = await axios.get(`/api/admin/v1/channel`)
+      return res
+    } else {
+      const data = await await timeout(200).then(() => mock.tasks)
+      return { status: 200, data: data }
+    }
+  },
+
+  async channelon (params) {
+    if (process.env.NODE_ENV === 'production') {
+      var res = await axios.put(`/api/admin/v1/channel/${params.id}/channelon`)
+      return res
+    } else {
+      const data = await await timeout(200).then(() => mock.task)
+      return { status: 200, data: data }
+    }
+  },
+
+  async channeloff (params) {
+    if (process.env.NODE_ENV === 'production') {
+      var res = await axios.put(`/api/admin/v1/channel/${params.id}/channeloff`)
+      return res
+    } else {
+      const data = await await timeout(200).then(() => mock.task)
+      return { status: 200, data: data }
+    }
+  },
+
+  async editChannel (params) {
+    if (process.env.NODE_ENV === 'production') {
+      var res = await axios.put(`/api/admin/v1/channel/${params.id}`, {
+        name: params.name || '',
+        type: params.type || '',
+        url: params.url || ''
+      })
+      return res
+    } else {
+      const data = await await timeout(200).then(() => mock.face)
+      return { status: 200, data: data }
+    }
+  },
+
+  async getResults (params) {
+    if (process.env.NODE_ENV === 'production') {
+      var opts = {}
+      if (params && params.page_size) {
+        opts.page_size = params.page_size
       }
-      if (params && params.batchName) {
-        opts.batchName = 'like_' + params.batchName
+      if (params && params.page_no) {
+        opts.page_no = params.page_no - 1
       }
-      if (params && params.user_id) {
-        opts.userId = params.user_id
+      if (params && params.channelId) {
+        opts.channelId = params.channelId
       }
       if (params && params.status !== '') {
         opts.status = params.status
@@ -288,7 +388,7 @@ export default {
       if (params && params.createTime) {
         opts.createTime = params.createTime
       }
-      var res = await axios.get(`/api/admin/v1/task`, {
+      var res = await axios.get(`/api/admin/v1/result`, {
         params: opts
       })
       return res
@@ -298,123 +398,23 @@ export default {
     }
   },
 
-  async getAllTasks (params) {
+  async getResultById (params) {
     if (process.env.NODE_ENV === 'production') {
-      var opts = {}
-      if (params && params.page_size) {
-        opts.page_size = params.page_size
-      }
-      if (params && params.page_no) {
-        opts.page_no = params.page_no - 1
-      }
-      if (params && params.name) {
-        opts.name = 'like_' + params.name
-      }
-      if (params && params.batchId) {
-        opts.batchId = params.batchId
-      }
-      if (params && params.batchName) {
-        opts.batchName = 'like_' + params.batchName
-      }
-      if (params && params.user_id) {
-        opts.userId = params.user_id
-      }
-      if (params && params.status !== '') {
-        opts.status = params.status
-      }
-      if (params && params.createTime) {
-        opts.createTime = params.createTime
-      }
-      var res = await axios.get(`/api/admin/v1/getAllTask`, {
-        params: opts
+      var res = await axios.get(`/api/admin/v1/result/${params.id}/record`)
+      return res
+    } else {
+      const data = await await timeout(200).then(() => mock.task)
+      return { status: 200, data: data }
+    }
+  },
+
+  async getResultByTime (params) {
+    if (process.env.NODE_ENV === 'production') {
+      var res = await axios.get(`/api/admin/v1/result/${params.id}/time`, {
+        params: {
+          timestamp: params.timestamp
+        }
       })
-      return res
-    } else {
-      const data = await await timeout(200).then(() => mock.tasks)
-      return { status: 200, data: data }
-    }
-  },
-
-  async getMyTasks (params) {
-    if (process.env.NODE_ENV === 'production') {
-      var opts = {}
-      if (params && params.page_size) {
-        opts.page_size = params.page_size
-      }
-      if (params && params.page_no) {
-        opts.page_no = params.page_no - 1
-      }
-      if (params && params.name) {
-        opts.name = 'like_' + params.name
-      }
-      if (params && params.batchId) {
-        opts.batchId = params.batchId
-      }
-      if (params && params.batchName) {
-        opts.batchName = 'like_' + params.batchName
-      }
-      if (params && params.user_id) {
-        opts.userId = params.user_id
-      }
-      if (params && params.status !== '') {
-        opts.status = params.status
-      }
-      if (params && params.createTime) {
-        opts.createTime = params.createTime
-      }
-      var res = await axios.get(`/api/admin/v1/getMyTask`, {
-        params: opts
-      })
-      return res
-    } else {
-      const data = await await timeout(200).then(() => mock.tasks)
-      return { status: 200, data: data }
-    }
-  },
-
-  async getTasksById (params) {
-    if (process.env.NODE_ENV === 'production') {
-      var res = await axios.get(`/api/admin/v1/task/${params.id}`)
-      return res
-    } else {
-      const data = await await timeout(200).then(() => mock.task)
-      return { status: 200, data: data }
-    }
-  },
-
-  async taskPause (params) {
-    if (process.env.NODE_ENV === 'production') {
-      var res = await axios.put(`/api/admin/v1/task/pause/${params.id}`)
-      return res
-    } else {
-      const data = await await timeout(200).then(() => mock.task)
-      return { status: 200, data: data }
-    }
-  },
-
-  async taskResume (params) {
-    if (process.env.NODE_ENV === 'production') {
-      var res = await axios.put(`/api/admin/v1/task/resume/${params.id}`)
-      return res
-    } else {
-      const data = await await timeout(200).then(() => mock.task)
-      return { status: 200, data: data }
-    }
-  },
-
-  async taskReset (params) {
-    if (process.env.NODE_ENV === 'production') {
-      var res = await axios.put(`/api/admin/v1/task/reset/${params.id}`)
-      return res
-    } else {
-      const data = await await timeout(200).then(() => mock.task)
-      return { status: 200, data: data }
-    }
-  },
-
-  async getTaskResults (params) {
-    if (process.env.NODE_ENV === 'production') {
-      var res = await axios.get(`/api/admin/v1/task/result/${params.id}?isFace=${params.isFace}`)
       return res
     } else {
       const data = await await timeout(200).then(() => mock.result)
@@ -422,117 +422,27 @@ export default {
     }
   },
 
-  async addBatch (params) {
+  async getResultByFace (params) {
     if (process.env.NODE_ENV === 'production') {
-      var res = await axios.post(`/api/face/v1/batch`, params)
-      return res
-    } else {
-      const data = await await timeout(200).then(() => mock.createBatch)
-      return { status: 200, data: data }
-    }
-  },
-
-  async getBatchs (params) {
-    if (process.env.NODE_ENV === 'production') {
-      var opts = {}
-      if (params && params.page_size) {
-        opts.page_size = params.page_size
-      }
-      if (params && params.page_no) {
-        opts.page_no = params.page_no - 1
-      }
-      if (params && params.name) {
-        opts.name = params.name
-      }
-      if (params && params.id) {
-        opts.id = params.id
-      }
-      if (params && params.createTime) {
-        opts.createTime = params.createTime
-      }
-      var res = await axios.get(`/api/face/v1/batch`, {
-        params: opts
+      var res = await axios.get(`/api/admin/v1/result/${params.id}/face`, {
+        params: {
+          timestamp: params.timestamp
+        }
       })
       return res
     } else {
-      const data = await await timeout(200).then(() => mock.batchs)
-      return { status: 200, data: data }
+      const data = await await timeout(200).then(() => mock.result)
+      return { status: 200, data: { data: data, count: 1 } }
     }
   },
 
-  async addTemp (params) {
+  async channelJiankan (params) {
     if (process.env.NODE_ENV === 'production') {
-      var res = await axios.post(`/api/face/v1/mode`, params)
+      var res = await axios.get(`/api/admin/v1/live/${params.id}`)
       return res
     } else {
-      const data = await await timeout(200).then(() => mock.temp)
-      return { status: 200, data: data }
-    }
-  },
-
-  async editTemp (params) {
-    if (process.env.NODE_ENV === 'production') {
-      var res = await axios.put(`/api/face/v1/mode/${params.id}`, {
-        name: params.name,
-        frame_rate: params.frame_rate,
-        // dynamic_rate: params.dynamic_rate,
-        prority: params.prority
-        // group_ids: params.group_ids
-      })
-      return res
-    } else {
-      const data = await await timeout(200).then(() => mock.temp)
-      return { status: 200, data: data }
-    }
-  },
-
-  async delTemp (params) {
-    if (process.env.NODE_ENV === 'production') {
-      var res = await axios.delete(`/api/face/v1/mode/${params.id}`)
-      return res
-    } else {
-      return { status: 200 }
-    }
-  },
-
-  async getTemps (params) {
-    if (process.env.NODE_ENV === 'production') {
-      var opts = {}
-      if (params && params.page_size) {
-        opts.page_size = params.page_size
-      }
-      if (params && params.page_no) {
-        opts.page_no = params.page_no - 1
-      }
-      if (params && params.name) {
-        opts.name = params.name
-      }
-      if (params && params.user_id) {
-        opts.userId = params.user_id
-      }
-      if (params && params.createTime) {
-        opts.createTime = params.createTime
-      }
-      var res = await axios.get(`/api/face/v1/mode`, {
-        params: opts
-      })
-      return res
-    } else {
-      const data = await await timeout(200).then(() => mock.temps)
-      return { status: 200, data: data }
-    }
-  },
-
-  async tempAssign (params) {
-    if (process.env.NODE_ENV === 'production') {
-      var res = await axios.put(`/api/face/v1/modeAssigned`, {
-        mode_id: params.mode_id,
-        user_id: params.user_id
-      })
-      return res
-    } else {
-      const data = await await timeout(200).then(() => mock.temp)
-      return { status: 200, data: data }
+      const data = await await timeout(200).then(() => mock.result)
+      return { status: 200, data: { data: data, count: 1 } }
     }
   }
 }

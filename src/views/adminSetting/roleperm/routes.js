@@ -1,38 +1,28 @@
 export const routes = [
   {
-    title: '当前队列',
-    name: 'Queue',
+    title: '频道配置',
+    name: 'Channel',
     children: [
       {
-        title: '我的',
-        name: 'My',
-        parent: 'Queue'
-      },
-      {
-        title: '全部',
-        name: 'All',
-        parent: 'Queue'
+        title: '频道列表',
+        name: 'ChannelList',
+        parent: 'Channel'
       }
     ]
   },
   {
-    title: '任务管理',
+    title: '结果查看',
     name: 'TaskBatch',
     children: [
       {
-        title: '任务',
+        title: '结果列表',
         name: 'Task',
-        parent: 'TaskBatch'
-      },
-      {
-        title: '任务单',
-        name: 'Batch',
         parent: 'TaskBatch'
       }
     ]
   },
   {
-    title: '查看任务结果',
+    title: '查看结果详情',
     name: 'TaskResult'
   },
   {
@@ -45,20 +35,9 @@ export const routes = [
         parent: 'FaceGroup'
       },
       {
-        title: '分组',
+        title: '标签',
         name: 'Group',
         parent: 'FaceGroup'
-      }
-    ]
-  },
-  {
-    title: '审核模板',
-    name: 'Mode',
-    children: [
-      {
-        title: '模板列表',
-        name: 'ModeList',
-        parent: 'Mode'
       }
     ]
   },
