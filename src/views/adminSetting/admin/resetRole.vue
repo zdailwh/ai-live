@@ -61,10 +61,10 @@ export default {
       loading: false,
       userRoleItem: {},
       editform: {
-        roleId: ''
+        role_id: ''
       },
       ruleValidate: {
-        roleId: [
+        role_id: [
           { required: true, message: '请选择角色', trigger: 'change' }
         ]
       }

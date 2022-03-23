@@ -13,8 +13,8 @@
           <!-- <a-button type="primary" @click="handleFilter"><a-icon key="search" type="search"/>搜索</a-button>
           <a-button style="margin-left: 10px;" @click="resetForm('filterForm')">重置</a-button> -->
           <a-button v-if="currUser.level !== '' && currUser.level > 3" style="margin-left: 10px;" type="primary" @click="dialogVisibleAdd = true"><a-icon key="plus" type="plus"/>创建角色</a-button>
-          <a-button v-if="currUser.level !== '' && currUser.level > 3" style="margin-left: 10px;" type="primary" @click="dialogVisibleAddApi = true"><a-icon key="plus" type="plus"/>创建角色接口权限</a-button>
-          <a-button v-if="currUser.level !== '' && currUser.level > 3" style="margin-left: 10px;" type="primary" @click="dialogVisibleAddMenu = true"><a-icon key="plus" type="plus"/>创建角色菜单权限</a-button>
+          <!-- <a-button v-if="currUser.level !== '' && currUser.level > 3" style="margin-left: 10px;" type="primary" @click="dialogVisibleAddApi = true"><a-icon key="plus" type="plus"/>创建角色接口权限</a-button>
+          <a-button v-if="currUser.level !== '' && currUser.level > 3" style="margin-left: 10px;" type="primary" @click="dialogVisibleAddMenu = true"><a-icon key="plus" type="plus"/>创建角色菜单权限</a-button> -->
         </a-form-model-item>
       </a-form-model>
     </div>
