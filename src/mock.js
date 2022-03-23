@@ -218,7 +218,7 @@ let templateAuthentication = {
     'delete_id': 0,
     'id': 2,
     'level': 4,
-    'menu': 'AdminSetting,AdminList,RoleList,RolePerm,LogList,Log_,SysSetting,SysInfo,SysRestart,Network,Storage,FaceGroup,Face,Group,TaskBatch,Task,TaskResult,ChannelList,Channel_',
+    'menu': 'AdminSetting,AdminList,RoleList,RolePerm,LogList,Log_,SysSetting,SysInfo,SysRestart,Network,Storage,Backup,FaceGroup,Face,Group,TaskBatch,Task,TaskResult,ChannelList,Channel_',
     // 'menu': 'Queue,My,All,TaskBatch,Task,Batch,TaskResult',
     'name': '管理员',
     'status': 0,

@@ -41,7 +41,7 @@
     </a-descriptions>
     <p style="text-align: center;margin: 20px 0;">
       <a-button key="submit" type="primary" @click="toEdit">修改配置</a-button>
-      <a-button type="primary" style="margin-left: 10px;" @click="uploadVisible = true"><a-icon type="upload" /> 上传配置文件 </a-button>
+      <!-- <a-button type="primary" style="margin-left: 10px;" @click="uploadVisible = true"><a-icon type="upload" /> 上传配置文件 </a-button> -->
     </p>
 
     <!--编辑设备存储配置-->

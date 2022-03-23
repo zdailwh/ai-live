@@ -45,12 +45,15 @@
           <div class="file-main" :style="{ paddingLeft: (routeWhiteList.indexOf($route.path) === -1 && $route.path.indexOf('jiankan') === -1) ? '166px': '0px' }">
             <div v-if="showSubMenu" class="mySubMenu">
               <a-menu v-if="topRoute && topRoute.children && topRoute.children.length" v-model="currentChild" mode="horizontal">
-                <a-menu-item v-if="!rou.hidden" v-for="rou in topRoute.children" :key="`${topRoute.path}/${rou.path}`" :style="{float: rou.path.indexOf('sysrestart') !== -1 ? 'right' : ''}">
+                <a-menu-item v-if="!rou.hidden" v-for="rou in topRoute.children" :key="`${topRoute.path}/${rou.path}`" :style="{float: (rou.path.indexOf('sysrestart') !== -1 || rou.path.indexOf('backup') !== -1) ? 'right' : ''}">
                   {{rou.meta.title}}
                 </a-menu-item>
               </a-menu>
             </div>
-            <router-view/>
+            <keep-alive>
+              <router-view v-if="$route.meta.keepAlive" />
+            </keep-alive>
+            <router-view v-if="!$route.meta.keepAlive" />
           </div>
         </div>
       </div>

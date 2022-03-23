@@ -145,7 +145,18 @@ const columns = [
 var timer = null
 export default {
   beforeRouteEnter (to, from, next) {
-    next()
+    next(vm => {
+      if (from.name !== 'TaskResult') {
+        vm.page_no = 1
+        vm.page_size = 20
+        vm.searchForm = {
+          channelId: '',
+          status: '',
+          createTime: []
+        }
+        vm.getResults()
+      }
+    })
   },
   beforeRouteLeave (to, from, next) {
     this.continueCircle = false
@@ -226,6 +237,9 @@ export default {
 
     this.getResults()
     this.getAllChannels()
+  },
+  activated () {
+    this.continueCircle = true
   },
   methods: {
     filterOption (input, option) {

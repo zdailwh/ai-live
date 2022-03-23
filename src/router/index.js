@@ -303,7 +303,7 @@ export const asyncRoutes = [
         path: 'task',
         name: 'Task',
         component: () => import('@/views/taskBatch/task'),
-        meta: { title: '结果列表', active: 'taskbatch' }
+        meta: { title: '结果列表', active: 'taskbatch', keepAlive: true }
       }
     ]
   },
@@ -453,6 +453,12 @@ export const asyncRoutes = [
         name: 'Storage',
         component: () => import('@/views/sysSetting/storage'),
         meta: { title: '存储管理', active: 'sysSetting' }
+      },
+      {
+        path: 'backup',
+        name: 'Backup',
+        component: () => import('@/views/sysSetting/backup'),
+        meta: { title: '设备备份', active: 'sysSetting' }
       }
     ]
   },

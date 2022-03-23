@@ -128,5 +128,25 @@ export default {
       const data = await await timeout(200).then(() => mock.feature)
       return { status: 200, data: data }
     }
+  },
+
+  async importConfig (formdata) {
+    if (process.env.NODE_ENV === 'production') {
+      var res = await axios.post(`/api/admin/v1/importconfig`, formdata)
+      return res
+    } else {
+      const data = await await timeout(200).then(() => mock.feature)
+      return { status: 200, data: data }
+    }
+  },
+
+  async exportConfig () {
+    if (process.env.NODE_ENV === 'production') {
+      var res = await axios.post(`/api/admin/v1/exportconfig`)
+      return res
+    } else {
+      const data = await await timeout(200).then(() => mock.feature)
+      return { status: 200, data: data }
+    }
   }
 }
